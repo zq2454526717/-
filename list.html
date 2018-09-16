@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>list</title>
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+    <style>
+        .wrap{
+            width: 100%;
+            background-color: #aaaaaa;
+        }
+        .songlist{
+            margin: auto;
+            width: 1000px;
+            height: 1000px;
+            background-color: #ffffff;
+        }
+        .songlist-introduce{
+            margin: auto;
+            width: 650px;
+            height: 300px;
+        }
+        .songimg{
+            float: left;
+            margin: 40px;
+            width: 200px;
+            height: 200px;
+        }
+        .songimg img{
+            width: 200px;
+            height: 200px;
+            /*box-shadow: 10px 10px 5px #aaaaaa;*/
+            border-image: none 100% 1 0 stretch;
+        }
+        .centre{
+            float: left;
+        }
+        .songlist-name{
+            margin-top: 40px;
+            width: 350px;
+            height: 40px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .play{
+            width: 130px;
+            height: 60px;
+            color: #fff;
+            line-height: 60px;
+            text-align: center;
+            background-color: #4876FF;
+            border-radius: 30px;
+        }
+        .introduce{
+            margin-top: 10px;
+            width: 200px;
+            height: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .songlist-songlist{
+            margin: auto;
+            width: 640px;
+            height: 30px;
+        }
+        tr,td,table{
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="songlist">
+        <div class="songlist-introduce">
+            <div class="songimg">
+                <img>
+            </div>
+            <div class="centre">
+                <div class="songlist-name"></div>
+                <div class="play">
+                    播放
+                </div>
+                <div class="introduce"></div>
+            </div>
+        </div>
+        <div class="songlist-songlist">
+           <h2>歌曲列表</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>歌曲标题</td>
+                        <td>时长</td>
+                        <td>歌手</td>
+                        <td>专辑</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    (function(){
+        var xmlhttp;
+        var textobj={}
+        if(window.XMLHttpRequest){
+            xmlhttp=new XMLHttpRequest();
+        }else {
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP")
+        }
+        xmlhttp.onreadystatechange=function(){
+            if(xmlhttp.readyState==4&&xmlhttp.status==200){
+                textobj=JSON.parse(xmlhttp.responseText)
+                console.log(textobj)
+                var songimg=document.querySelector('.songimg img')
+                var songlist_name=document.querySelector('.songlist-name')
+                var introduce=document.querySelector('.introduce')
+                songimg.src=textobj.playlist.coverImgUrl
+                songlist_name.innerHTML=textobj.playlist.name
+                introduce.innerHTML=textobj.playlist.description
+                var songlist_songlist=document.querySelector('.songlist-songlist')
+                var arr=[]
+                for(i=0;i<20;i++){
+                    arr.push('<tr><td></td><td></td><td></td></tr>')
+                }
+            }
+        }
+        xmlhttp.open('POST','http://localhost:3000/playlist/detail'+location.search,true)
+        // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
+        xmlhttp.send()
+        console.log(location.search)
+    })()
+</script>
+</html>

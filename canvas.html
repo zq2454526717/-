@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+    <style>
+        #mycanvas{
+            width: 1000px;
+            height: 1000px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas">
+        <canvas id="mycanvas" width="1000" height="1000" style="border: 1px solid #000"></canvas>
+    </div>
+</body>
+<script>
+    (function(){
+        var canvas=document.getElementById('mycanvas')
+        // console.log(canvas)
+        var ctx=canvas.getContext('2d')
+        var circle={
+            x:[],
+            y:[],
+            booleanX:[],
+            booleanY:[]
+        }
+        ctx.fillStyle='#f00'
+        // console.log(ctx)
+        for(i=0;i<20;i++){
+            ctx.beginPath()
+            circle.x.push(Math.floor(Math.random()*1000+1))
+            circle.y.push(Math.floor(Math.random()*1000+1))
+            circle.booleanX[i]=CircleBoolean();
+            circle.booleanY=CircleBoolean();
+            ctx.arc(circle.x[i],circle.y[i],10,0,2*Math.PI)
+            ctx.fill()
+            // console.log(Math.floor(Math.random()*1000+1))
+        }
+        function CreateCircle(){
+
+        }
+        console.log(circle.boolean)
+        function CircleMove(x,y,booleanX,booleanY) {
+
+            if(booleanX==true){
+                circle.x+=circle.x
+            }else{
+                circle.x-=circle.x
+            }
+            if(booleanY==true){
+                circle.y+=circle.y
+            }else {
+                circle.y-=circle.y
+            }
+        }
+
+        function CircleBoolean() {
+            var  boolean=Math.floor(Math.random()*10)
+            if(boolean%2==0){
+                return true
+            }else
+            {
+                return false
+            }
+        }
+    })()
+</script>
+</html>

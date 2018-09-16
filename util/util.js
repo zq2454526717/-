@@ -94,6 +94,7 @@ function createRequest(path, method, data) {
       url: `http://music.163.com${path}`,
       method: method,
       headers: {
+          'X-Real-IP':'211.161.244.70',
         Referer: "http://music.163.com",
         Cookie: "appver=1.5.2",
         "Content-Type": "application/x-www-form-urlencoded",
