@@ -13,7 +13,7 @@
             margin: auto;
             width: 1000px;
             height: 1000px;
-            background-color: #ffffff;
+            background-color: #eee;
         }
         .songlist-introduce{
             margin: auto;
@@ -52,19 +52,51 @@
             border-radius: 30px;
         }
         .introduce{
+            overflow: hidden;
             margin-top: 10px;
             width: 200px;
             height: 160px;
-            overflow: hidden;
+            background-color: #fff;
+            text-indent: 20px;
             text-overflow: ellipsis;
         }
         .songlist-songlist{
-            margin: auto;
-            width: 640px;
+            margin: 20px auto;
+            width: 650px;
             height: 30px;
         }
-        tr,td,table{
-            border: 1px solid #000;
+        table,table thead tr,table thead td{
+
+            font-size: smaller;
+            border: 1px solid rgb(255,235,205);
+        }
+        table thead{
+            background-color: rgba(255,235,205,0.5);
+            border-top: 3px solid rgb(255,235,205);
+        }
+        tr{
+            overflow: hidden;
+            text-overflow-ellipsis: "...";
+            /*white-space: nowrap;*/
+            height: 30px;
+        }
+        tr:not(:first-child):hover{
+            background-color: rgba(0,0,0,0.3) !important;
+        }
+        .songlist-songlist table thead .t1{
+            width: 80px;
+        }
+        .songlist-songlist table thead .t2{
+            width: 235px;
+        }
+        .songlist-songlist table thead .t3{
+            width: 110px;
+        }
+        .songlist-songlist table thead .t4{
+            width: 90px;
+        }
+        .songlist-songlist table thead .t5{
+            width: 135px ;
         }
     </style>
 </head>
@@ -88,11 +120,11 @@
             <table>
                 <thead>
                     <tr>
-                        <td></td>
-                        <td>歌曲标题</td>
-                        <td>时长</td>
-                        <td>歌手</td>
-                        <td>专辑</td>
+                        <td class="t1"></td>
+                        <td class="t2">歌曲标题</td>
+                        <td class="t3">时长</td>
+                        <td class="t4">歌手</td>
+                        <td class="t5">专辑</td>
                     </tr>
                 </thead>
             </table>
@@ -103,34 +135,102 @@
 </body>
 <script>
     (function(){
-        var xmlhttp;
-        var textobj={}
-        if(window.XMLHttpRequest){
-            xmlhttp=new XMLHttpRequest();
-        }else {
-            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP")
-        }
-        xmlhttp.onreadystatechange=function(){
-            if(xmlhttp.readyState==4&&xmlhttp.status==200){
-                textobj=JSON.parse(xmlhttp.responseText)
-                console.log(textobj)
-                var songimg=document.querySelector('.songimg img')
-                var songlist_name=document.querySelector('.songlist-name')
-                var introduce=document.querySelector('.introduce')
-                songimg.src=textobj.playlist.coverImgUrl
-                songlist_name.innerHTML=textobj.playlist.name
-                introduce.innerHTML=textobj.playlist.description
-                var songlist_songlist=document.querySelector('.songlist-songlist')
-                var arr=[]
-                for(i=0;i<20;i++){
-                    arr.push('<tr><td></td><td></td><td></td></tr>')
+        function Send1() {
+            var xmlhttp;
+            var textobj={}
+            if(window.XMLHttpRequest){
+                xmlhttp=new XMLHttpRequest();
+            }else {
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP")
+            }
+            xmlhttp.onreadystatechange=function(){
+                if(xmlhttp.readyState==4&&xmlhttp.status==200) {
+                    textobj = JSON.parse(xmlhttp.responseText)
+                    var songimg = document.querySelector('.songimg img')
+                    var songlist_name = document.querySelector('.songlist-name')
+                    var introduce = document.querySelector('.introduce')
+                    songimg.src = textobj.playlist.coverImgUrl
+                    songlist_name.innerHTML = textobj.playlist.name
+                    introduce_ar=textobj.playlist.description.split('\n')
+                    console.log(introduce_ar)
+                    var ar=''
+                    for(i=0;i<introduce_ar.length;i++){
+                        ar+=introduce_ar[i]+'<br>'
+                    }
+                    introduce.innerHTML =ar
+                    var songlist_songlist = document.querySelector('.songlist-songlist')
+                    var table = document.querySelector('.songlist-songlist table')
+                    var arr = []
+                    for (i = 0; i < 20; i++) {
+                        var tr = document.createElement('tr')
+                        var td0 = document.createElement('td')
+                        td0.innerHTML = i + 1
+                        tr.appendChild(td0)
+                        var td1 = document.createElement('td')
+                        td1.innerHTML = textobj.playlist.tracks[i].name
+                        tr.appendChild(td1)
+                        var td2 = document.createElement('td')
+                        var decimal=Math.round(textobj.playlist.tracks[i].dt / 1000%60)<10 ? '0'+Math.round(textobj.playlist.tracks[i].dt / 1000%60):Math.round(textobj.playlist.tracks[i].dt / 1000%60)
+                        td2.innerHTML = Math.floor(textobj.playlist.tracks[i].dt / 60000)+':'+decimal
+                        tr.appendChild(td2)
+                        var td3 = document.createElement('td')
+                        td3.innerHTML = textobj.playlist.tracks[i].ar[0].name
+                        tr.appendChild(td3)
+                        var td4 = document.createElement('td')
+                        td4.innerHTML = textobj.playlist.tracks[i].al.name
+                        tr.appendChild(td4)
+                        table.appendChild(tr)
+                    }
+                    var trs = document.querySelectorAll('.songlist-songlist table tr')
+
+                    for (i = 2; i < trs.length; i += 2) {
+                        trs[i].style.backgroundColor = 'rgba(245,245,245,0.5)'
+                    }
+                    console.log(textobj)
+                    function EventListener() {
+                        for (var i = 0; i < trs.length; i++) {
+                            trs[i].onclick = function () {
+                                var index = Array.prototype.indexOf.call(trs, this)
+                                var song_img=window.parent.document.querySelector('#song-img img')
+                                var song_name=window.parent.document.querySelector('#song-name')
+                                var player=window.parent.document.querySelector('.player')
+                                Send2(textobj.playlist.tracks[index-1].id)
+                                song_img.src=textobj.playlist.tracks[index-1].al.picUrl
+                                song_name.innerHTML=textobj.playlist.tracks[index-1].name
+                                player.style.visibility='visible'
+                                player.style.top=document.body.offsetHeight-50-player.offsetHeight+'px'
+                            }
+                        }
+                    }
+                    EventListener()
                 }
             }
+            xmlhttp.open('POST','http://localhost:3000/playlist/detail'+location.search,true)
+            // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
+            xmlhttp.send()
         }
-        xmlhttp.open('POST','http://localhost:3000/playlist/detail'+location.search,true)
-        // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
-        xmlhttp.send()
-        console.log(location.search)
+
+        function Send2( id){
+            var xmlhttp;
+            var textobj={}
+            if(window.XMLHttpRequest){
+                xmlhttp=new XMLHttpRequest();
+            }else {
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP")
+            }
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    textobj = JSON.parse(xmlhttp.responseText)
+                    console.log(textobj)
+                    var player=window.parent.document.querySelector('.player .play audio')
+                    player.src=textobj.data[0].url
+                }
+            }
+            xmlhttp.open('POST','http://localhost:3000/music/url?id='+id,true)
+            // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
+            xmlhttp.send()
+        }
+        Send1()
     })()
 </script>
 </html>

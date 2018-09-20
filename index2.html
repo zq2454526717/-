@@ -494,7 +494,7 @@
         var songlist=document.querySelector('.section-left-songlist')
         var imgs_text=document.querySelectorAll('.section-left-songlist-text')
         var playvolume=document.querySelectorAll('.playvolume')
-        var iframe=window.parent.document.querySelector('iframe')
+        var iframe=window.parent.document.querySelector('#iframe1')
         if(window.XMLHttpRequest){
             xmlhttp=new XMLHttpRequest();
         }else {
@@ -503,9 +503,6 @@
         xmlhttp.onreadystatechange=function(){
             if(xmlhttp.readyState==4&&xmlhttp.status==200){
                 textobj=JSON.parse(xmlhttp.responseText)
-                console.log(imgs_text)
-                console.log(imgs)
-                console.log(textobj)
                 for(i=0;i<imgs.length;i++){
                     imgs[i].src=textobj.playlists[i].coverImgUrl
                     imgs[i].alt=textobj.playlists[i].name
@@ -513,27 +510,15 @@
                     imgs_text[i].innerHTML=textobj.playlists[i].name
                     playvolume[i].innerHTML=textobj.playlists[i].playCount
                 }
-                console.log(textobj.playlists[0].coverImgUrl)
                 EventListener()
-
                 function EventListener(){
                     for (var i = 0; i < imgs.length; i++) {
-                        console.log(i)
                         imgs[i].onclick = function() {
                             var index = Array.prototype.indexOf.call(imgs,this)
                             iframe.src='list.html?id='+textobj.playlists[index].id
                         }
                     }
-                    /*songlist.onmouseover=function(){
-                        for(i=0;i<imgs.length;i++){
-                            imgs[i].onclick=function(){
-                                console.log(i)
-                                iframe.src='list.html?id='+textobj.playlists[i].id
-                            }
-                        }
-                    }*/
                 }
-
             }
         }
         xmlhttp.open('POST','http://localhost:3000/top/playlist',true)
