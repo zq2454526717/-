@@ -2,10 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="keywords" content="MyMusic">
+    <meta name="description" content="">
     <title>网易云音乐</title>
     <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
     <style>
         a{
+             text-decoration: none;
+             color: inherit;
+         }
+        a:hover{
             text-decoration: none;
             color: inherit;
         }
@@ -39,6 +45,9 @@
             height: 70px;
             color: #ddd;
             line-height: 70px;
+        }
+        .nav ul{
+            height: 70px;
         }
         .nav ul li{
             float: left;
@@ -98,7 +107,7 @@
             height: 35px;
             color: #fff;
             font-size: small;
-            line-height: 35px;
+            line-height: 30px;
         }
         .nav-down ul li{
             box-sizing: border-box;
@@ -136,14 +145,32 @@
             float: left;
         }
         #progress #song-name{
+            margin-left: 10px;
             height: 20px;
             color: #dddddd;
             font-size: smaller;
         }
         audio{
             width: 800px;
-            height: 25px;
+            height: 30px;
             opacity: 0.5;
+        }
+        #al{
+            width: 100%;
+            height: 60px;
+            background-color: #dddddd ;
+        }
+        #ab{
+            margin: auto;
+            width: 265px;
+            font-size: smaller;
+        }
+        #ab p{
+            width: 190px;
+        }
+        #ab ul li{
+            float: left;
+            color: #858585;
         }
     </style>
 </head>
@@ -153,17 +180,13 @@
         <div class="header-up">
             <div class="logo">
                 <h1>
-                    <a href="#">网易云音乐</a>
+                    <a href="#">MyMusic</a>
                 </h1>
             </div>
             <div class="nav">
                 <ul>
                     <li><a href="#">发现音乐</a></li>
                     <li><a href="http://www.baidu.com" >我的音乐</a></li>
-                    <li><a>朋友</a></li>
-                    <li><a>商城</a></li>
-                    <li><a>音乐人</a></li>
-                    <li><a>下载客户端</a></li>
                 </ul>
             </div>
             <div class="search">
@@ -189,8 +212,19 @@
             </div>
         </div>
     </div>
-    <iframe id="iframe1" src="index2.html" width="100%" style="min-height: 1000px"></iframe>
-        <div class="player">
+    <iframe id="iframe1" src="index2.html" width="100%" style="min-height: 1000px;background-image: url('54fc800e800dbc29ac3b6914ee9b4de9.jpg')" height="650" width="1920"/>")"></iframe>
+    <div id="al">
+        <div id="ab">
+            <ul>
+                <li>关于MyMusic|</li>
+                <li>客户服务|</li>
+                <li>服务条款|</li>
+                <li>意见反馈</li>
+            </ul>
+            <p>My公司版权所有(╯▽╰ )好香~~     举报邮箱2454526717@qq.com</p>
+        </div>
+    </div>
+        <div id="player" class="player"  >
             <div class="play">
                 <div id="song-img">
                     <img>
@@ -204,7 +238,25 @@
         </div>
 </div>
 </body>
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
 <script>
+    (function(){
+        var search=document.querySelector('.search input'),
+            iframe=document.querySelector('#iframe1');
+        search.onkeydown=function(e) {
+             if (e.keyCode ==13) {
+                 var url=encodeURI(search.value);
+                iframe.src='search_list.html?keywords='+url;
+             }
+        }
+        var x=0;
+        $(document).ready(function(){
+            $(window).resize(function(){
+               $(".player").css("top",window.innerHeight-60+'px')
+            });
+        });
+        console.log(window.innerHeight)
+    })()
 
 </script>
 </html>

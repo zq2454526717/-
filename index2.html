@@ -6,110 +6,11 @@
     <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
     <style>
         a{
-           text-decoration: none;
+            text-decoration: none;
             color: inherit;
         }
-        body{
-          background-color: #aaa;
-        }
-        /*.header{*/
-            /*width: 100%;*/
-            /*height: 105px;*/
-            /*background-color: #242424;*/
-        /*}*/
-        /*.header-up{*/
-            /*margin: auto;*/
-            /*width: 1040px;*/
-            /*height: 70px;*/
-        /*}*/
-        /*.logo{*/
-            /*float: left;*/
-            /*margin-left: 20px;*/
-            /*width: 120px;*/
-            /*height: 70px;*/
-            /*color: #fff;*/
-            /*font-size: x-large;*/
-            /*line-height: 70px;*/
-        /*}*/
-        /*.nav{*/
-            /*float: left;*/
-            /*margin-left: 20px;*/
-            /*width: 450px;*/
-            /*height: 70px;*/
-            /*color: #ddd;*/
-            /*line-height: 70px;*/
-        /*}*/
-        /*.nav ul li{*/
-            /*float: left;*/
-            /*margin-left: 20px;*/
-        /*}*/
-        /*.nav ul li:hover{*/
-            /*background-color: #121212;*/
-        /*}*/
-        /*.search{*/
-            /*-webkit-box-sizing: border-box;*/
-            /*-moz-box-sizing: border-box;*/
-            /*box-sizing: border-box;*/
-            /*float: left;*/
-            /*padding: 5px 8px;*/
-            /*margin: 20px 20px 0;*/
-            /*width: 190px;*/
-            /*height: 30px;*/
-            /*background-color:#fff ;*/
-            /*border-radius: 15px;*/
-        /*}*/
-        /*.search input{*/
-            /*border: none;*/
-            /*outline: medium;*/
-        /*}*/
-        /*.upload{*/
-            /*-webkit-box-sizing: border-box;*/
-            /*-moz-box-sizing: border-box;*/
-            /*box-sizing: border-box;*/
-            /*float: left;*/
-            /*padding: 5px 8px;*/
-            /*margin: 20px 20px 0;*/
-            /*width: 90px;*/
-            /*height: 30px;*/
-            /*color: #ddd;*/
-            /*border-radius: 15px;*/
-            /*border: 1px solid #ddd;*/
-        /*}*/
-        /*.upload:hover{*/
-            /*border: 1px solid #fff;*/
-        /*}*/
-        /*.login{*/
-            /*float: left;*/
-            /*width: 70px;*/
-            /*height: 30px;*/
-            /*color: #aaa;*/
-            /*line-height: 70px;*/
-        /*}*/
-        /*.login:hover{*/
-            /*color: #fff;*/
-        /*}*/
-        /*.header-down{*/
-            /*background-color: #c20c0c;*/
-        /*}*/
-        /*.nav-down{*/
-            /*margin: auto;*/
-            /*width: 504px;*/
-            /*height: 35px;*/
-            /*color: #fff;*/
-            /*font-size: small;*/
-            /*line-height: 35px;*/
-        /*}*/
-        /*.nav-down ul li{*/
-            /*box-sizing: border-box;*/
-            /*float: left;*/
-            /*margin: 2px;*/
-            /*width: 80px;*/
-            /*height: 30px;*/
-            /*text-align: center;*/
-            /*border-radius: 20px;*/
-        /*}*/
-        /*.nav-down ul li:hover{*/
-            /*background-color: rgba(0,0,0,0.5);*/
+        /*body{*/
+            /*background-color: #aaa;*/
         /*}*/
         .section{
             width: 100%;
@@ -219,18 +120,20 @@
             margin: auto;
             background-color: #ffffff;
             width: 1000px;
+            height: 500px;
         }
         .section-left{
+            float: left;
             width: 750px;
         }
         .section-right{
             width: 250px;
         }
         .section-left-songlist{
-             margin: auto;
-             width: 700px;
+            margin: auto;
+            width: 700px;
             height: 500px;
-         }
+        }
         .section-left-songlist-title{
             margin: 0 25px 10px 25px;
             line-height: 30px;
@@ -266,61 +169,33 @@
             color: #ddd;
             font-size: small;
         }
+        .section-right{
+            float: left;
+            width: 240px;
+            height: 500px;
+            border-left: 1px solid #dddddd;
+        }
+        .section-right-songlist-title{
+            margin: 0 25px 10px 25px;
+            line-height: 30px;
+            width: 200px;
+            border-bottom: 2px solid red;
+        }
     </style>
 </head>
 <body>
 <div class="warrper">
-    <!--<div class="header">-->
-        <!--<div class="header-up">-->
-            <!--<div class="logo">-->
-                <!--<h1>-->
-                    <!--<a href="#">网易云音乐</a>-->
-                <!--</h1>-->
-            <!--</div>-->
-            <!--<div class="nav">-->
-                <!--<ul>-->
-                    <!--<li><a href="#">发现音乐</a></li>-->
-                    <!--<li><a href="http://www.baidu.com" >我的音乐</a></li>-->
-                    <!--<li><a>朋友</a></li>-->
-                    <!--<li><a>商城</a></li>-->
-                    <!--<li><a>音乐人</a></li>-->
-                    <!--<li><a>下载客户端</a></li>-->
-                <!--</ul>-->
-            <!--</div>-->
-            <!--<div class="search">-->
-                <!--<input placeholder="音乐/视频/电台/用户">-->
-            <!--</div>-->
-            <!--<div class="upload">-->
-                <!--视频投稿-->
-            <!--</div>-->
-            <!--<div class="login">-->
-                <!--<a>登录</a>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="header-down">-->
-            <!--<div class="nav-down">-->
-                <!--<ul>-->
-                    <!--<li>推荐</li>-->
-                    <!--<li>排行榜</li>-->
-                    <!--<li>歌单</li>-->
-                    <!--<li>主播电台</li>-->
-                    <!--<li>歌手</li>-->
-                    <!--<li>新碟上架</li>-->
-                <!--</ul>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
     <div class="section">
         <div class="sowingmaper">
             <div class="sowingmap-left" >
 
             </div>
             <div class="sowingmap">
-                <img src="http://pic.90sjimg.com/back_pic/u/00/00/95/36/55e6b11cbd1cb.jpg" alt="jpg1" title="jpg1">
-                <img src="http://pic.xiudodo.com/figure/00/00/41/52/74/9155c233dcada45.jpg"alt="jpg2" title="jpg2">
-                <img src="http://images.missyuan.com/attachments/day_140614/20140614_a6cafa32869e124610abi3wXNatnwIlA.jpg"alt="jpg3" title="jpg3">
-                <img src="http://pic1.win4000.com/wallpaper/9/583cde9f9a38b.jpg"alt="jpg4" title="jpg4">
-                <img src="http://i1.hdslb.com/bfs/archive/4df29719f32619a7bc06a6321a30688a1b6f9bac.jpg"alt="jpg5" title="jpg5">
+                <img src="http://www.0512hlc.com/upload/img/otaMg4dLw9Cw3hfPpivZJMqvbZAVsOEf8ycsGH8KSgxBVZaJemphDDPVR/6usi-nI7DJSlv0lM15VlV4yldiUt954n/I7vw2HJdeDRk.jpg" alt="jpg1" title="jpg1">
+                <img src="http://i0.hdslb.com/bfs/archive/ba3936491f978cb7cbded6f255728ce19e905a7e.jpg"alt="jpg2" title="jpg2">
+                <img src="http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201601/12080057769571co.jpg"alt="jpg3" title="jpg3">
+                <img src="http://10wallpaper.com/wallpaper/1920x1080/1609/Fantasy_Guitars_strings-2016_Music_HD_Wallpaper_1920x1080.jpg"alt="jpg4" title="jpg4">
+                <img src="http://www.musicedu8.com/d/file/TeachingPic/wallpaper/2018-09-02/b494c8286b67c1ba259bc1701940cf40.jpg"alt="jpg5" title="jpg5">
                 <div class="sowingmap-circle">
                     <svg>
                         <circle />
@@ -347,7 +222,7 @@
     <div class="section-list">
         <div class="section-left">
             <div class="section-left-songlist-title">
-            <h2>热门推荐</h2>
+                <h2>热门推荐</h2>
             </div>
             <div class="section-left-songlist">
                 <ul>
@@ -419,7 +294,9 @@
             </div>
         </div>
         <div class="section-right">
-
+            <div class="section-right-songlist-title">
+                <h2>热门MV</h2>
+            </div>
         </div>
     </div>
     <div class="footer"></div>
@@ -428,20 +305,28 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script>
+    function GEA(g) {
+        return document.querySelectorAll(g);
+    }
+    function GE(g) {
+        return document.querySelector(g);
+    }
     (function(){
+        //重置圆的填充颜色
         function Resetcircle(){
             circles[0].style.fill='red'
         }
-        var imgs=document.querySelectorAll('.sowingmap img'),
-            circles=document.querySelectorAll('.sowingmap-circle svg circle'),
+        var imgs=GEA('.sowingmap img'),
+            circles=GEA('.sowingmap-circle svg circle'),
             width=imgs[0].offsetWidth,
+            //设置定时器
             interver=setInterval(Sowing,3000);
         for(i=0;i<imgs.length;i++){
             imgs[i].style.left=i*width+'px';
             Resetcircle()
         }
         Sowingmap();
-
+        //实现banner运转
         function Sowing(){
             if(imgs[imgs.length-1].offsetLeft==0){
                 for(i=0;i<imgs.length;i++) {
@@ -457,16 +342,15 @@
                 for(i=0;i<imgs.length;i++){
                     imgs[i].style.left=imgs[i].offsetLeft-width+'px';
                     if(imgs[i].offsetLeft==0){
-                        // console.log(i);
                         circles[i].style.fill='red';
                     }
                 }
             }
         }
-
+        //添加banner箭头点击事件
         function Sowingmap() {
-            var sowingmapLeft = document.querySelector('.sowingmap-left'),
-                sowingmapRight = document.querySelector('.sowingmap-right');
+            var sowingmapLeft = GE('.sowingmap-left'),
+                sowingmapRight = GE('.sowingmap-right');
             sowingmapLeft.onclick = function () {
                 if (imgs[0].offsetLeft == 0) {
 
@@ -488,40 +372,44 @@
         }
     })();
     (function(){
-        var xmlhttp;
-        var textobj={}
-        var imgs=document.querySelectorAll('.section-left-songlist img')
-        var songlist=document.querySelector('.section-left-songlist')
-        var imgs_text=document.querySelectorAll('.section-left-songlist-text')
-        var playvolume=document.querySelectorAll('.playvolume')
-        var iframe=window.parent.document.querySelector('#iframe1')
+        var xmlhttp,
+            textobj={},
+            imgs= GEA('.section-left-songlist img'),
+            imgs_text=GEA('.section-left-songlist-text'),
+            playvolume=GEA('.playvolume'),
+            iframe=window.parent.document.querySelector('#iframe1');
+
         if(window.XMLHttpRequest){
             xmlhttp=new XMLHttpRequest();
         }else {
-            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP")
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
         }
+
         xmlhttp.onreadystatechange=function(){
             if(xmlhttp.readyState==4&&xmlhttp.status==200){
-                textobj=JSON.parse(xmlhttp.responseText)
+                textobj=JSON.parse(xmlhttp.responseText);
+
                 for(i=0;i<imgs.length;i++){
-                    imgs[i].src=textobj.playlists[i].coverImgUrl
-                    imgs[i].alt=textobj.playlists[i].name
-                    imgs[i].title=textobj.playlists[i].name
-                    imgs_text[i].innerHTML=textobj.playlists[i].name
-                    playvolume[i].innerHTML=textobj.playlists[i].playCount
+                    imgs[i].src=textobj.playlists[i].coverImgUrl;
+                    imgs[i].alt=textobj.playlists[i].name;
+                    imgs[i].title=textobj.playlists[i].name;
+                    imgs_text[i].innerHTML=textobj.playlists[i].name;
+                    playvolume[i].innerHTML=textobj.playlists[i].playCount;
                 }
-                EventListener()
+
+                EventListener();
+
                 function EventListener(){
-                    for (var i = 0; i < imgs.length; i++) {
+                    for (i = 0; i < imgs.length; i++) {
                         imgs[i].onclick = function() {
-                            var index = Array.prototype.indexOf.call(imgs,this)
-                            iframe.src='list.html?id='+textobj.playlists[index].id
+                            var index = Array.prototype.indexOf.call(imgs,this);
+                            iframe.src='list.html?id='+textobj.playlists[index].id;
                         }
                     }
                 }
             }
         }
-        xmlhttp.open('POST','http://localhost:3000/top/playlist',true)
+        xmlhttp.open('POST','http://localhost:3000/top/playlist',true);
         // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
         xmlhttp.send('limit=8&order=hot')
     })()
