@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            overflow: auto;
+        }
+        input{
+
+        }
+        #form{
+            margin: 200px auto auto;
+            width: 550px;
+            height: 350px;
+            background-color: #dddddd;
+            border-radius: 50px;
+        }
+        #login{
+            margin: 105px auto auto;
+            width: 300px;
+            height: 140px;
+        }
+        #name{
+            width: 250px;
+            height: 40px;
+            background-color: white;
+            border: 1px solid #dddddd;
+        }
+        #name input,#password input{
+            display: block;
+            margin: 2px auto;
+            width: 240px;
+            height: 30px;
+            border: none;
+        }
+        #name:focus,#password:focus{
+            border: 1px solid #98FB98;
+        }
+        #password{
+            width: 250px;
+            height: 40px;
+            background-color: white;
+            border: 1px solid #dddddd;
+        }
+        #submit{
+            width: 250px;
+            height: 40px;
+            background-color: #76EE00;
+        }
+        #submit{
+            color: 	#F0FFFF;
+            text-align: center;
+            line-height: 40px;
+        }
+        .add_border{
+            border: 1px solid #97FFFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="form">
+        <div id="login">
+            <form id="form1" action="login_check.php" method="post">
+                <div id="name">
+                    <input name="name" type="text" placeholder="账号" required>
+                </div>
+                <div id="password">
+                    <input name="password" type="password" placeholder="密码" required>
+                </div>
+                <div id="submit">
+                    登录
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    (function(){
+        var submit=document.querySelector('#submit'),
+            form=document.querySelector('#form1');
+        submit.onmousedown=function () {
+            submit.className='add_border';
+        };
+
+        submit.onmouseup=function () {
+            submit.removeAttribute('class','add_border');
+        };
+
+        submit.onclick=function () {
+            console.log('http://localhost/login_check.php?name='+document.querySelector('#name input').value+'&&password='+document.querySelector('#password input').value)
+            Getjson();
+        };
+
+        function Getjson() {
+            $.ajax({
+                url:'http://localhost/login_check.php?name='+document.querySelector('#name input').value+'&&password='+document.querySelector('#password input').value,
+                type:'get',
+                success:function (result) {
+                    console.log(result)
+                    console.log(typeof result)
+                    console.log(result.code)
+                }
+            })
+        }
+    })();
+</script>
+</html>

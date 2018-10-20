@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
     <style>
+        thead{
+            font-size: larger;
+        }
         .wrap{
+            width: 100%;
+            /*background-color: #aaaaaa;*/
+
+        }
+        .songlist{
             margin: auto;
             width: 1000px;
-            /*background-color: #eee;*/
+            background-color: #eee;
         }
-        table{
+        .songlist-songlist{
             margin: auto;
+            width: 650px;
         }
         table,table thead tr,table thead td{
 
@@ -24,142 +34,160 @@
         tr{
             overflow: hidden;
             text-overflow-ellipsis: "...";
-            /*white-space: nowrap;*/
             height: 30px;
         }
         tr:not(:first-child):hover{
             background-color: rgba(0,0,0,0.3) !important;
         }
-        table thead .t1{
+        .songlist-songlist table thead .t1{
             width: 80px;
         }
-        table thead .t2{
+        .songlist-songlist table thead .t2{
             width: 235px;
         }
-        table thead .t3{
+        .songlist-songlist table thead .t3{
             width: 110px;
         }
-        table thead .t4{
+        .songlist-songlist table thead .t4{
             width: 90px;
         }
-        table thead .t5{
+        .songlist-songlist table thead .t5{
             width: 135px ;
+        }
+        #more{
+            margin: auto;
+            width: 650px;
+            height: 30px;
+            text-align: center;
+        }
+        #more:hover{
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="wrap">
-        <table>
-            <thead>
-            <tr>
-                <td class="t1"></td>
-                <td class="t2">歌曲标题</td>
-                <td class="t3">时长</td>
-                <td class="t4">歌手</td>
-                <td class="t5">专辑</td>
-            </tr>
-            </thead>
-        </table>
+<div class="wrap">
+    <div class="songlist">
+        <div class="songlist-songlist">
+            <h2>搜索结果</h2>
+            <table>
+                <thead>
+                <tr>
+                    <td class="t1"></td>
+                    <td class="t2">歌曲标题</td>
+                    <td class="t3">时长</td>
+                    <td class="t4">歌手</td>
+                    <td class="t5">专辑</td>
+                </tr>
+                </thead>
+            </table>
+            <div id="more">
+                更多
+            </div>
+        </div>
     </div>
+</div>
 
 </body>
 <script>
-                //     console.log(textobj)
-                //
-                //
-                    function EventListener() {
-                        for (var i = 0; i < trs.length; i++) {
-                            trs[i].onclick = function () {
-                                var index = Array.prototype.indexOf.call(trs, this)
-                                var song_img = window.parent.document.querySelector('#song-img img')
-                                var song_name = window.parent.document.querySelector('#song-name')
-                                var player = window.parent.document.querySelector('.player')
-                                Send2(textobj.playlist.tracks[index - 1].id)
-                                song_img.src = textobj.playlist.tracks[index - 1].al.picUrl
-                                song_name.innerHTML = textobj.playlist.tracks[index - 1].name
-                                player.style.visibility = 'visible'
-                                player.style.top = document.body.offsetHeight - 50 - player.offsetHeight + 'px'
-                            }
-                        }
-                    }
-                    // EventListener()
     (function(){
-        var xmlhttp
-        var textobj = {}
+        var xmlhttp;
+        var textobj = {};
         if (window.XMLHttpRequest) {
             xmlhttp = new XMLHttpRequest();
         } else {
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP")
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                textobj = JSON.parse(xmlhttp.responseText)
-                console.log(textobj)
-                var table = document.querySelector('table')
-                for (i = 0; i < 20; i++) {
-                    var tr = document.createElement('tr')
-                    var td0 = document.createElement('td')
-                    td0.innerHTML = i + 1
-                    tr.appendChild(td0)
-                    var td1 = document.createElement('td')
-                    td1.innerHTML = textobj.result.songs[i].name
-                    tr.appendChild(td1)
-                    var td2 = document.createElement('td')
-                    var decimal = Math.round(textobj.result.songs[i].duration / 1000 % 60) < 10 ? '0' + Math.round(textobj.result.songs[i].duration / 1000 % 60) : Math.round(textobj.result.songs[i].duration / 1000 % 60)
-                    td2.innerHTML = Math.floor(textobj.result.songs[i].duration / 60000) + ':' + decimal
-                    tr.appendChild(td2)
-                    var td3 = document.createElement('td')
-                    td3.innerHTML = textobj.result.songs[i].artists[0].name
-                    tr.appendChild(td3)
-                    var td4 = document.createElement('td')
-                    td4.innerHTML = textobj.result.songs[i].album.name
-                    tr.appendChild(td4)
-                    table.appendChild(tr)
-                    var trs = document.querySelectorAll('table tr')
-                }
-                for (i = 2; i < trs.length; i += 2) {
-                    trs[i].style.backgroundColor = 'rgba(245,245,245,0.5)'
-                }
-                function EventListener() {
-                    for (var i = 0; i < trs.length; i++) {
-                        trs[i].onclick = function () {
-                            var index = Array.prototype.indexOf.call(trs, this)
-                            var player = window.parent.document.querySelector('.player')
-                            var song_img=window.parent.document.querySelector('#song-img img')
-                            var song_name=window.parent.document.querySelector('#song-name')
-                            Send2( textobj.result.songs[index].id)
-                            console.log(index)
-                            song_img.src=textobj.result.songs[index-1].artists[0].img1v1Url
-                            song_name.innerHTML=textobj.result.songs[index-1].name
-                            player.style.visibility = 'visible'
+                textobj = JSON.parse(xmlhttp.responseText);
+                console.log(textobj);
+                var table = document.querySelector('table');
+                var more=document.querySelector('#more');
+
+                var num=0;
+                List(0,20);
+                function List(n,m) {
+                    for (i = n; i < m; i++) {
+                        if(i==textobj.result.songs.length||i>textobj.result.songs.length){
+                            num=i;
+                            more.innerHTML='不能再多了呢~';
+
+                            return;
+                        }
+
+                        var tr = document.createElement('tr');
+                        var td0 = document.createElement('td');
+                        td0.innerHTML = i + 1;
+                        tr.appendChild(td0);
+                        var td1 = document.createElement('td');
+                        td1.innerHTML = textobj.result.songs[i].name;
+                        tr.appendChild(td1);
+                        var td2 = document.createElement('td');
+                        var decimal = Math.round(textobj.result.songs[i].duration / 1000 % 60) < 10 ? '0' + Math.round(textobj.result.songs[i].duration / 1000 % 60) : Math.round(textobj.result.songs[i].duration / 1000 % 60);
+                        td2.innerHTML = Math.floor(textobj.result.songs[i].duration / 60000) + ':' + decimal;
+                        tr.appendChild(td2);
+                        var td3 = document.createElement('td');
+                        td3.innerHTML = textobj.result.songs[i].artists[0].name;
+                        tr.appendChild(td3);
+                        var td4 = document.createElement('td');
+                        td4.innerHTML = textobj.result.songs[i].album.name;
+                        tr.appendChild(td4);
+                        table.appendChild(tr);
+
+                    }
+
+                    var trs = document.querySelectorAll('table tr');
+                    for (i = 2; i < trs.length; i += 2) {
+                        trs[i].style.backgroundColor = 'rgba(245,245,245,0.5)';
+                    }
+
+                    function EventListener() {
+                        for (var i = 0; i < trs.length; i++) {
+                            trs[i].onclick = function () {
+                                var index = Array.prototype.indexOf.call(trs, this);
+                                var player = window.parent.document.querySelector('.player');
+                                var song_img = window.parent.document.querySelector('#song-img img');
+                                var song_name = window.parent.document.querySelector('#song-name');
+                                Send2(textobj.result.songs[index].id);
+                                console.log(index);
+                                song_img.src = textobj.result.songs[index - 1].artists[0].img1v1Url;
+                                song_name.innerHTML = textobj.result.songs[index - 1].name;
+                                player.style.visibility = 'visible';
+                                player.style.top = window.innerHeight - 50 - 60 + 'px';
+                            }
                         }
                     }
+                    EventListener();
+                    num+=20;
                 }
-                 EventListener()
+                more.onclick=function () {
+                    List(num,num+20);
+                }
             }
-        }
+        };
         var url =decodeURI(decodeURI(location.search));
-        console.log(url)
-        xmlhttp.open('POST', 'http://localhost:3000/search'+url, true)
-        // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
-        xmlhttp.send()
+        console.log(url);
+        xmlhttp.open('POST', 'http://localhost:3000/search'+url, true);
+        // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.send();
         function Send2( id){
             var xmlhttp;
-            var textobj={}
+            var textobj={};
             if(window.XMLHttpRequest){
                 xmlhttp=new XMLHttpRequest();
             }else {
-                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP")
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
             }
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    textobj = JSON.parse(xmlhttp.responseText)
-                    console.log(textobj)
-                    var player=window.parent.document.querySelector('.player .play audio')
-                    player.src=textobj.data[0].url
+                    textobj = JSON.parse(xmlhttp.responseText);
+                    console.log(textobj);
+                    var player=window.parent.document.querySelector('.player .play audio');
+                    player.src=textobj.data[0].url;
                 }
-            }
-            xmlhttp.open('POST','http://localhost:3000/music/url?id='+id,true)
+            };
+            xmlhttp.open('POST','http://localhost:3000/music/url?id='+id,true);
             // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
             xmlhttp.send()
         }

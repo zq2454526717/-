@@ -93,3 +93,7 @@ app.listen(port, () => {
 })
 
 module.exports = app
+
+app.all("/index",function(req,res){
+
+});

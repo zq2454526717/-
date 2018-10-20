@@ -5,9 +5,13 @@
     <title>list</title>
     <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
     <style>
+        thead{
+            font-size: larger;
+        }
         .wrap{
             width: 100%;
             /*background-color: #aaaaaa;*/
+
         }
         .songlist{
             margin: auto;
@@ -227,12 +231,11 @@
                                     song_img.src=textobj.playlist.tracks[index-1].al.picUrl;
                                     song_name.innerHTML=textobj.playlist.tracks[index-1].name;
                                     player.style.visibility='visible';
-                                    player.style.top=window.innerHeight-50-60+'px';}
+                                    player.style.top=window.innerHeight-50-60+'px';
+                                }
                             }
                         }
-
                         EventListener();
-
                         num+=20;
                     }
 
@@ -240,7 +243,7 @@
                         List(num,num+20);
                     }
                 }
-            }
+            };
             xmlhttp.open('POST','http://localhost:3000/playlist/detail'+location.search,true);
             // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
             xmlhttp.send()

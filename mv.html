@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .wrap{
+            width: 100%;
+        }
+        #mvplayer{
+            margin: auto;
+            width:1000px ;
+            height: 700px;
+        }
+        #player{
+            position: relative;
+            margin: auto;
+            width: 1000px;
+            height: 700px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div id="mvplayer">
+            <video id="player" controls autoplay>
+                <source id="p" src="" type="video/mp4">
+            </video>
+        </div>
+    </div>
+</body>
+<script>
+    (function(){
+        var xmlhttp,
+            textobj={},
+            video=document.querySelector('video')
+            player=document.querySelector('#p');
+
+        if(window.XMLHttpRequest){
+            xmlhttp=new XMLHttpRequest();
+        }else {
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange=function(){
+            if(xmlhttp.readyState==4&&xmlhttp.status==200){
+                textobj=JSON.parse(xmlhttp.responseText)
+                // player.src=textobj.data.brs["480"]
+
+                player.src=textobj.data.brs["480"]
+                video.load()
+            }
+        }
+        xmlhttp.open('POST','http://localhost:3000/mv'+location.search,true);
+        // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
+        xmlhttp.send()
+    })()
+</script>
+</html>

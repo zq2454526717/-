@@ -9,9 +9,6 @@
             text-decoration: none;
             color: inherit;
         }
-        /*body{*/
-            /*background-color: #aaa;*/
-        /*}*/
         .section{
             width: 100%;
             height: 350px;
@@ -181,6 +178,15 @@
             width: 200px;
             border-bottom: 2px solid red;
         }
+        .section-right-mvlist{
+            margin: auto;
+            width: 200px;
+        }
+        .section-right-mvlist img{
+            margin-top: 10px;
+            width: 200px;
+            height: 150px;
+        }
     </style>
 </head>
 <body>
@@ -297,6 +303,16 @@
             <div class="section-right-songlist-title">
                 <h2>热门MV</h2>
             </div>
+            <div class="section-right-mvlist">
+                <img>
+                <div class="section-right-mvlist-text">
+
+                </div>
+                <img>
+                <div class="section-right-mvlist-text">
+
+                </div>
+            </div>
         </div>
     </div>
     <div class="footer"></div>
@@ -311,6 +327,7 @@
     function GE(g) {
         return document.querySelector(g);
     }
+
     (function(){
         //重置圆的填充颜色
         function Resetcircle(){
@@ -325,7 +342,9 @@
             imgs[i].style.left=i*width+'px';
             Resetcircle()
         }
+
         Sowingmap();
+
         //实现banner运转
         function Sowing(){
             if(imgs[imgs.length-1].offsetLeft==0){
@@ -369,6 +388,7 @@
             };
 
             sowingmapRight.onclick = Sowing
+            GetMvList()
         }
     })();
     (function(){
@@ -413,5 +433,43 @@
         // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
         xmlhttp.send('limit=8&order=hot')
     })()
+   function GetMvList() {
+       var xmlhttp,
+           textobj={},
+           imgs= GEA('.section-right-mvlist img'),
+           imgs_text=GEA('.section-right-mvlist-text'),
+           iframe=window.parent.document.querySelector('#iframe1');
+
+       if(window.XMLHttpRequest){
+           xmlhttp=new XMLHttpRequest();
+       }else {
+           xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+       }
+
+       xmlhttp.onreadystatechange=function(){
+           if(xmlhttp.readyState==4&&xmlhttp.status==200){
+               textobj=JSON.parse(xmlhttp.responseText);
+               for(i=0;i<imgs.length;i++){
+                   imgs[i].src=textobj.result[i].picUrl;
+                   imgs[i].alt=textobj.result[i].name;
+                   imgs[i].title=textobj.result[i].name;
+                   imgs_text[i].innerHTML=textobj.result[i].name;
+               }
+               EventListener();
+               function EventListener(){
+                   for (i = 0; i < imgs.length; i++) {
+                       imgs[i].onclick = function() {
+                           var index = Array.prototype.indexOf.call(imgs,this);
+                           iframe.src='mv.html?mvid='+textobj.result[index].id;
+                           console.log(textobj.result[index].id)
+                       }
+                   }
+               }
+           }
+       };
+       xmlhttp.open('POST','http://134.175.17.50:3000/personalized/mv',true);
+       // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
+       xmlhttp.send()
+   }
 </script>
 </html>

@@ -6,7 +6,11 @@
     <meta name="description" content="">
     <title>网易云音乐</title>
     <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+    <script src="app.js"></script>
     <style>
+        *{
+            font-family: Arial;
+        }
         a{
              text-decoration: none;
              color: inherit;
@@ -47,6 +51,7 @@
             line-height: 70px;
         }
         .nav ul{
+            overflow: auto;
             height: 70px;
         }
         .nav ul li{
@@ -196,7 +201,7 @@
                 视频投稿
             </div>
             <div class="login">
-                <a>登录</a>
+                <a id="login" >登录</a>
             </div>
         </div>
         <div class="header-down">
@@ -242,21 +247,35 @@
 <script>
     (function(){
         var search=document.querySelector('.search input'),
-            iframe=document.querySelector('#iframe1');
+            iframe=document.querySelector('#iframe1'),
+            login=document.querySelector('#login');
+
         search.onkeydown=function(e) {
              if (e.keyCode ==13) {
                  var url=encodeURI(search.value);
                 iframe.src='search_list.html?keywords='+url;
              }
-        }
-        var x=0;
+        };
+
+        login.onclick=function () {
+            iframe.src='login.html';
+        };
+
         $(document).ready(function(){
             $(window).resize(function(){
                $(".player").css("top",window.innerHeight-60+'px')
             });
         });
-        console.log(window.innerHeight)
-    })()
 
+    })();
+
+
+    // var browser=navigator.appName;
+    // var b_version=navigator.appVersion;
+    // var version=parseFloat(b_version);
+    // console.log(browser);
+    // console.log(version);
+    // console.log(window.innerHeight)
+    console.log(screen.availHeight)
 </script>
 </html>
