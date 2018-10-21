@@ -7,9 +7,6 @@
         div{
             overflow: auto;
         }
-        input{
-
-        }
         #form{
             margin: 200px auto auto;
             width: 550px;
@@ -18,7 +15,7 @@
             border-radius: 50px;
         }
         #login{
-            margin: 105px auto auto;
+            margin: 50px auto auto;
             width: 300px;
             height: 140px;
         }
@@ -57,21 +54,27 @@
         .add_border{
             border: 1px solid #97FFFF;
         }
+        #init:hover{
+            text-decoration: underline;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div id="form">
+        <h2 style="text-align: center;color: #F0FFFF">登陆验证</h2>
         <div id="login">
-            <form id="form1" action="login_check.php" method="post">
+            <form id="form1" method="get">
                 <div id="name">
                     <input name="name" type="text" placeholder="账号" required>
                 </div>
                 <div id="password">
                     <input name="password" type="password" placeholder="密码" required>
                 </div>
-                <div id="submit">
+                <div id="submit" style="display: inline-block">
                     登录
                 </div>
+                <div style="display: inline-block"><a id="init">注册</a></div>
             </form>
         </div>
     </div>
@@ -80,7 +83,8 @@
 <script>
     (function(){
         var submit=document.querySelector('#submit'),
-            form=document.querySelector('#form1');
+            init=document.querySelector('#init');
+
         submit.onmousedown=function () {
             submit.className='add_border';
         };
@@ -90,18 +94,28 @@
         };
 
         submit.onclick=function () {
-            console.log('http://localhost/login_check.php?name='+document.querySelector('#name input').value+'&&password='+document.querySelector('#password input').value)
-            Getjson();
+            // console.log(typeof $('#form1').serialize())
+            Getjson('user');
         };
 
-        function Getjson() {
+        init.onclick=function () {
+            Getjson('nuser');
+        };
+
+        function Getjson(u) {
             $.ajax({
-                url:'http://localhost/login_check.php?name='+document.querySelector('#name input').value+'&&password='+document.querySelector('#password input').value,
+                url:'http://localhost/login_check.php',
                 type:'get',
+                data:$("#form1").serialize()+'&&u='+u,
                 success:function (result) {
-                    console.log(result)
-                    console.log(typeof result)
-                    console.log(result.code)
+                    console.log(result);
+                    console.log(typeof result);
+                    console.log(result.code);
+                    if(u=='user'){
+                        result.msg=='正确'?alert('登录成功'):alert('登录失败');
+                    }else {
+                        result.msg=='正确'?alert('注册成功'):alert('注册失败');
+                    }
                 }
             })
         }
