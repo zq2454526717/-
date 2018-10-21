@@ -168,7 +168,7 @@
         };
         var url =decodeURI(decodeURI(location.search));
         console.log(url);
-        xmlhttp.open('POST', 'http://localhost:3000/search'+url, true);
+        xmlhttp.open('POST', 'http://localhost:3003/search'+url, true);
         // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
         xmlhttp.send();
         function Send2( id){
@@ -187,7 +187,7 @@
                     player.src=textobj.data[0].url;
                 }
             };
-            xmlhttp.open('POST','http://localhost:3000/music/url?id='+id,true);
+            xmlhttp.open('POST','http://localhost:3003/music/url?id='+id,true);
             // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
             xmlhttp.send()
         }

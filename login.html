@@ -64,7 +64,7 @@
     <div id="form">
         <h2 style="text-align: center;color: #F0FFFF">登陆验证</h2>
         <div id="login">
-            <form id="form1" method="get">
+            <form id="form1" method="get" onsubmit="return false">
                 <div id="name">
                     <input name="name" type="text" placeholder="账号" required>
                 </div>
@@ -111,10 +111,10 @@
                     console.log(result);
                     console.log(typeof result);
                     console.log(result.code);
-                    if(u=='user'){
-                        result.msg=='正确'?alert('登录成功'):alert('登录失败');
-                    }else {
-                        result.msg=='正确'?alert('注册成功'):alert('注册失败');
+                    if (u == 'user') {
+                        result.code== 1 ? alert('登录成功') : alert('登录失败');
+                    } else {
+                        result.code== 1 ? alert('注册成功') : alert('注册失败');
                     }
                 }
             })

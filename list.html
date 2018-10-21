@@ -244,7 +244,7 @@
                     }
                 }
             };
-            xmlhttp.open('POST','http://localhost:3000/playlist/detail'+location.search,true);
+            xmlhttp.open('POST','http://localhost:3003/playlist/detail'+location.search,true);
             // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
             xmlhttp.send()
         }
@@ -267,7 +267,7 @@
                 }
             }
 
-            xmlhttp.open('POST','http://localhost:3000/music/url?id='+id,true);
+            xmlhttp.open('POST','http://localhost:3003/music/url?id='+id,true);
             // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
             xmlhttp.send()
         }

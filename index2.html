@@ -429,7 +429,7 @@
                 }
             }
         }
-        xmlhttp.open('POST','http://localhost:3000/top/playlist',true);
+        xmlhttp.open('POST','http://localhost:3003/top/playlist',true);
         // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
         xmlhttp.send('limit=8&order=hot')
     })()
@@ -467,7 +467,7 @@
                }
            }
        };
-       xmlhttp.open('POST','http://localhost:3000/personalized/mv',true);
+       xmlhttp.open('POST','http://localhost:3003/personalized/mv',true);
        // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
        xmlhttp.send()
    }
