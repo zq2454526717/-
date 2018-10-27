@@ -89,29 +89,27 @@
 </div>
 
 </body>
+<script src="jquery-3.3.1.js"></script>
 <script>
-    (function(){
-        var xmlhttp;
-        var textobj = {};
-        if (window.XMLHttpRequest) {
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                textobj = JSON.parse(xmlhttp.responseText);
-                console.log(textobj);
-                var table = document.querySelector('table');
-                var more=document.querySelector('#more');
+    var jq=$.noConflict();
 
-                var num=0;
+    (function(){
+        var url =decodeURI(decodeURI(location.search)),
+            player = window.parent.document.querySelector('.player');
+        jq.ajax({
+            url:'http://localhost:3003/search'+url,
+            success:function (response) {
+                var table = jq('table'),
+                    more=jq('#more'),
+                    num=0;
+
                 List(0,20);
+
                 function List(n,m) {
                     for (i = n; i < m; i++) {
-                        if(i==textobj.result.songs.length||i>textobj.result.songs.length){
+                        if(i==response.result.songs.length||i>response.result.songs.length){
                             num=i;
-                            more.innerHTML='不能再多了呢~';
+                            jq(more).html('不能再多了呢~');
 
                             return;
                         }
@@ -121,75 +119,55 @@
                         td0.innerHTML = i + 1;
                         tr.appendChild(td0);
                         var td1 = document.createElement('td');
-                        td1.innerHTML = textobj.result.songs[i].name;
+                        td1.innerHTML = response.result.songs[i].name;
                         tr.appendChild(td1);
                         var td2 = document.createElement('td');
-                        var decimal = Math.round(textobj.result.songs[i].duration / 1000 % 60) < 10 ? '0' + Math.round(textobj.result.songs[i].duration / 1000 % 60) : Math.round(textobj.result.songs[i].duration / 1000 % 60);
-                        td2.innerHTML = Math.floor(textobj.result.songs[i].duration / 60000) + ':' + decimal;
+                        var decimal = Math.round(response.result.songs[i].duration / 1000 % 60) < 10 ? '0' + Math.round(response.result.songs[i].duration / 1000 % 60) : Math.round(response.result.songs[i].duration / 1000 % 60);
+                        td2.innerHTML = Math.floor(response.result.songs[i].duration / 60000) + ':' + decimal;
                         tr.appendChild(td2);
                         var td3 = document.createElement('td');
-                        td3.innerHTML = textobj.result.songs[i].artists[0].name;
+                        td3.innerHTML = response.result.songs[i].artists[0].name;
                         tr.appendChild(td3);
                         var td4 = document.createElement('td');
-                        td4.innerHTML = textobj.result.songs[i].album.name;
+                        td4.innerHTML = response.result.songs[i].album.name;
                         tr.appendChild(td4);
-                        table.appendChild(tr);
+                        jq('.songlist-songlist table')[0].appendChild(tr);
 
                     }
 
-                    var trs = document.querySelectorAll('table tr');
+                    var trs = jq('.songlist-songlist table tr');
+                    console.log(trs)
                     for (i = 2; i < trs.length; i += 2) {
-                        trs[i].style.backgroundColor = 'rgba(245,245,245,0.5)';
+                        jq(trs[i]).css('background','rgba(245,245,245,0.5)');
                     }
 
-                    function EventListener() {
-                        for (var i = 0; i < trs.length; i++) {
-                            trs[i].onclick = function () {
-                                var index = Array.prototype.indexOf.call(trs, this);
-                                var player = window.parent.document.querySelector('.player');
-                                var song_img = window.parent.document.querySelector('#song-img img');
-                                var song_name = window.parent.document.querySelector('#song-name');
-                                Send2(textobj.result.songs[index].id);
-                                console.log(index);
-                                song_img.src = textobj.result.songs[index - 1].artists[0].img1v1Url;
-                                song_name.innerHTML = textobj.result.songs[index - 1].name;
-                                player.style.visibility = 'visible';
-                                player.style.top = window.innerHeight - 50 - 60 + 'px';
-                            }
-                        }
-                    }
-                    EventListener();
+                    jq(trs).click(function () {
+                        var index = Array.prototype.indexOf.call(trs, this);
+                        var song_img = window.parent.document.querySelector('#song-img img');
+                        var song_name = window.parent.document.querySelector('#song-name');
+                        Send2(response.result.songs[index].id);
+                        jq(song_img).attr('src',response.result.songs[index - 1].artists[0].img1v1Url);
+                        jq(song_name).html(response.result.songs[index - 1].name);
+                        jq(player).css('visibility','visible');
+                        jq(player).css('top',window.innerHeight - 50 - 60 + 'px');
+                    });
+
                     num+=20;
                 }
-                more.onclick=function () {
+                jq(more).click(function () {
                     List(num,num+20);
-                }
+                });
             }
-        };
-        var url =decodeURI(decodeURI(location.search));
-        console.log(url);
-        xmlhttp.open('POST', 'http://localhost:3003/search'+url, true);
-        // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-        xmlhttp.send();
+        });
+
         function Send2( id){
-            var xmlhttp;
-            var textobj={};
-            if(window.XMLHttpRequest){
-                xmlhttp=new XMLHttpRequest();
-            }else {
-                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    textobj = JSON.parse(xmlhttp.responseText);
-                    console.log(textobj);
+            jq.ajax({
+                url:'http://localhost:3003/music/url?id='+id,
+                success:function (result) {
                     var player=window.parent.document.querySelector('.player .play audio');
-                    player.src=textobj.data[0].url;
+                    jq(player).attr('src',result.data[0].url);
                 }
-            };
-            xmlhttp.open('POST','http://localhost:3003/music/url?id='+id,true);
-            // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
-            xmlhttp.send()
+            })
         }
     })()
 

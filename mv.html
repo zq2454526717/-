@@ -29,31 +29,21 @@
         </div>
     </div>
 </body>
+<script src="jquery-3.3.1.js"></script>
 <script>
+    var jq=$.noConflict();
+
     (function(){
-        var xmlhttp,
-            textobj={},
-            video=document.querySelector('video')
-            player=document.querySelector('#p');
+        var video=jq('video')[0],
+            player=jq('#p');
 
-        if(window.XMLHttpRequest){
-            xmlhttp=new XMLHttpRequest();
-        }else {
-            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-
-        xmlhttp.onreadystatechange=function(){
-            if(xmlhttp.readyState==4&&xmlhttp.status==200){
-                textobj=JSON.parse(xmlhttp.responseText)
-                // player.src=textobj.data.brs["480"]
-
-                player.src=textobj.data.brs["480"]
-                video.load()
+        jq.ajax({
+            url:'http://localhost:3003/mv'+location.search,
+            success:function (result) {
+                jq(player).attr('src',result.data.brs["480"]);
+                video.load();
             }
-        }
-        xmlhttp.open('POST','http://localhost:3003/mv'+location.search,true);
-        // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
-        xmlhttp.send()
+        })
     })()
 </script>
 </html>

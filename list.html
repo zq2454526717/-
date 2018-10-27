@@ -148,130 +148,96 @@
 </div>
 
 </body>
+<script src="jquery-3.3.1.js"></script>
 <script>
+    var jq=$.noConflict();
+
     (function(){
-        function Send1() {
-            var xmlhttp,
-                textobj={};
+                jq.ajax({
+                    url:'http://localhost:3003/playlist/detail'+location.search,
+                    success:function (result) {
+                        var song_img=window.parent.document.querySelector('#song-img img'),
+                            song_name=window.parent.document.querySelector('#song-name'),
+                            ar='',
+                            player=window.parent.document.querySelector('.player'),
+                            more=jq('#more')[0],
+                            num=0;
+                        jq('.songimg img').attr('src',result.playlist.coverImgUrl);
+                        jq('.songlist-name').html(result.playlist.name);
 
-            if(window.XMLHttpRequest){
-                xmlhttp=new XMLHttpRequest();
-            }else {
-                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-            }
-
-            xmlhttp.onreadystatechange=function(){
-                if(xmlhttp.readyState==4&&xmlhttp.status==200) {
-                    textobj = JSON.parse(xmlhttp.responseText);
-                    var songimg = document.querySelector('.songimg img'),
-                        songlist_name = document.querySelector('.songlist-name'),
-                        introduce = document.querySelector('.introduce'),
-                        table = document.querySelector('.songlist-songlist table') ,
-                        ar='',
-                        song_img=window.parent.document.querySelector('#song-img img'),
-                        song_name=window.parent.document.querySelector('#song-name'),
-                        player=window.parent.document.querySelector('.player'),
-                        more=document.querySelector('#more');
-                    songimg.src = textobj.playlist.coverImgUrl;
-                    songlist_name.innerHTML = textobj.playlist.name;
-
-
-                    const introduce_ar = textobj.playlist.description.split('\n');
-                    for(i=0;i<introduce_ar.length;i++){
-                        ar+=introduce_ar[i]+'<br>';
-                    }
-                    introduce.innerHTML =ar;
-                    var num=0;
-                    List(0,20);
-                    function List(n,m) {
-                        for (i = n; i < m; i++) {
-                            if(i==textobj.playlist.tracks.length||i>textobj.playlist.tracks.length){
-                                num=i;
-                                more.innerHTML='不能再多了呢~';
-
-                                return;
-                            }
-                            var  tr = document.createElement('tr'),
-                                td1 = document.createElement('td'),
-                                td2 = document.createElement('td'),
-                                decimal=Math.round(textobj.playlist.tracks[i].dt / 1000%60)<10 ? '0'+Math.round(textobj.playlist.tracks[i].dt / 1000%60):Math.round(textobj.playlist.tracks[i].dt / 1000%60),
-                                td3 = document.createElement('td'),
-                                td4 = document.createElement('td'),
-                                td0 = document.createElement('td');
-
-                            td0.innerHTML = i + 1;
-                            tr.appendChild(td0);
-
-                            td1.innerHTML = textobj.playlist.tracks[i].name;
-                            tr.appendChild(td1);
-
-
-                            td2.innerHTML = Math.floor(textobj.playlist.tracks[i].dt / 60000)+':'+decimal;
-                            tr.appendChild(td2);
-
-                            td3.innerHTML = textobj.playlist.tracks[i].ar[0].name;
-                            tr.appendChild(td3);
-
-                            td4.innerHTML = textobj.playlist.tracks[i].al.name;
-                            tr.appendChild(td4);
-                            table.appendChild(tr);
+                        const introduce_ar = result.playlist.description.split('\n');
+                        for(i=0;i<introduce_ar.length;i++){
+                            ar+=introduce_ar[i]+'<br>';
                         }
+                        jq('.introduce').html(ar);
 
-                        var trs = document.querySelectorAll('.songlist-songlist table tr');
+                        List(0,20);
 
-                        for (i = 2; i < trs.length; i += 2) {
-                            trs[i].style.backgroundColor = 'rgba(245,245,245,0.5)';
-                        }
-
-                        function EventListener() {
-                            for (var i = 0; i < trs.length; i++) {
-                                trs[i].onclick = function () {
-                                    var index = Array.prototype.indexOf.call(trs, this);
-                                    Send2(textobj.playlist.tracks[index-1].id);
-                                    song_img.src=textobj.playlist.tracks[index-1].al.picUrl;
-                                    song_name.innerHTML=textobj.playlist.tracks[index-1].name;
-                                    player.style.visibility='visible';
-                                    player.style.top=window.innerHeight-50-60+'px';
+                        function List(n,m) {
+                            for (i = n; i < m; i++) {
+                                if(i==result.playlist.tracks.length||i>result.playlist.tracks.length){
+                                    num=i;
+                                    jq(more).html('不能再多了呢~');
+                                    return;
                                 }
-                            }
-                        }
-                        EventListener();
-                        num+=20;
-                    }
+                                var  tr = document.createElement('tr'),
+                                    td1 = document.createElement('td'),
+                                    td2 = document.createElement('td'),
+                                    decimal=Math.round(result.playlist.tracks[i].dt / 1000%60)<10 ? '0'+Math.round(result.playlist.tracks[i].dt / 1000%60):Math.round(result.playlist.tracks[i].dt / 1000%60),
+                                    td3 = document.createElement('td'),
+                                    td4 = document.createElement('td'),
+                                    td0 = document.createElement('td');
 
-                    more.onclick=function () {
-                        List(num,num+20);
+                                td0.innerHTML = i + 1;
+                                tr.appendChild(td0);
+
+                                td1.innerHTML = result.playlist.tracks[i].name;
+                                tr.appendChild(td1);
+
+
+                                td2.innerHTML = Math.floor(result.playlist.tracks[i].dt / 60000)+':'+decimal;
+                                tr.appendChild(td2);
+
+                                td3.innerHTML = result.playlist.tracks[i].ar[0].name;
+                                tr.appendChild(td3);
+
+                                td4.innerHTML = result.playlist.tracks[i].al.name;
+                                tr.appendChild(td4);
+                                jq('.songlist-songlist table')[0].appendChild(tr);
+                            }
+
+                            var trs = jq('.songlist-songlist table tr');
+                            console.log(trs)
+                            for (i = 2; i < trs.length; i += 2) {
+                                jq(trs[i]).css('background','rgba(245,245,245,0.5)');
+                            }
+
+                            jq(trs).click(function () {
+                                var index = Array.prototype.indexOf.call(trs, this);
+                                Send2(result.playlist.tracks[index-1].id);
+                                jq(song_img).attr('src',result.playlist.tracks[index-1].al.picUrl);
+                                jq(song_name).html(result.playlist.tracks[index-1].name);
+                                jq(player).css('visibility','visible');
+                                jq(player).css('top',window.innerHeight-50-60+'px');
+                            })
+                            num+=20;
+                        }
+
+                        jq(more).click(function () {
+                            List(num,num+20);
+                        })
                     }
-                }
-            };
-            xmlhttp.open('POST','http://localhost:3003/playlist/detail'+location.search,true);
-            // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
-            xmlhttp.send()
-        }
+                })
 
         function Send2( id){
-            var xmlhttp,
-                textobj={};
-
-            if(window.XMLHttpRequest){
-                xmlhttp=new XMLHttpRequest();
-            }else {
-                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-            }
-
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    textobj = JSON.parse(xmlhttp.responseText);
+            jq.ajax({
+                url:'http://localhost:3003/music/url?id='+id,
+                success:function (result) {
                     var player=window.parent.document.querySelector('.player .play audio');
-                    player.src=textobj.data[0].url;
+                    jq(player).attr('src',result.data[0].url);
                 }
-            }
-
-            xmlhttp.open('POST','http://localhost:3003/music/url?id='+id,true);
-            // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
-            xmlhttp.send()
+            })
         }
-        Send1()
     })()
 </script>
 </html>

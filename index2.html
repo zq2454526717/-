@@ -319,157 +319,123 @@
 </div>
 
 </body>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="jquery-3.3.1.js"></script>
 <script>
-    function GEA(g) {
-        return document.querySelectorAll(g);
-    }
-    function GE(g) {
-        return document.querySelector(g);
-    }
+    var jq=$.noConflict();
 
     (function(){
+            imgs=jq('.sowingmap img'),
+            circles=jq('.sowingmap-circle svg circle'),
+            width=imgs[0].offsetWidth;
+
         //重置圆的填充颜色
         function Resetcircle(){
-            circles[0].style.fill='red'
-        }
-        var imgs=GEA('.sowingmap img'),
-            circles=GEA('.sowingmap-circle svg circle'),
-            width=imgs[0].offsetWidth,
-            //设置定时器
-            interver=setInterval(Sowing,3000);
-        for(i=0;i<imgs.length;i++){
-            imgs[i].style.left=i*width+'px';
-            Resetcircle()
+            jq(circles[0]).css('fill','red');
         }
 
+        Init();
         Sowingmap();
+            //设置定时器
+            interver=setInterval(Sowing,3000);
+
+        function Init() {
+            for(i=0;i<imgs.length;i++){
+                jq(imgs[i]).css('left',i*width+'px');
+                Resetcircle()
+            }
+        }
 
         //实现banner运转
         function Sowing(){
             if(imgs[imgs.length-1].offsetLeft==0){
                 for(i=0;i<imgs.length;i++) {
-                    imgs[i].style.left = i * width + 'px';
+                    jq(imgs[i]).css('left',i*width+'px');
                 }
-                circles[imgs.length-1].style.fill='aaa';
-                Resetcircle()
+                jq(circles[imgs.length-1]).css('fill','#aaa');
+                Resetcircle();
             }
             else{
                 for(i=0;i<circles.length;i++){
-                    circles[i].style.fill='#aaa';
+                    jq(circles[i]).css('fill','#aaa');
                 }
                 for(i=0;i<imgs.length;i++){
-                    imgs[i].style.left=imgs[i].offsetLeft-width+'px';
+                    jq(imgs[i]).css('left',imgs[i].offsetLeft-width+'px');
                     if(imgs[i].offsetLeft==0){
-                        circles[i].style.fill='red';
+                        jq(circles[i]).css('fill','red');
                     }
                 }
             }
         }
         //添加banner箭头点击事件
         function Sowingmap() {
-            var sowingmapLeft = GE('.sowingmap-left'),
-                sowingmapRight = GE('.sowingmap-right');
-            sowingmapLeft.onclick = function () {
+            var sowingmapLeft = jq('.sowingmap-left')[0],
+                sowingmapRight = jq('.sowingmap-right')[0];
+
+            jq(sowingmapLeft).click(function () {
                 if (imgs[0].offsetLeft == 0) {
 
                 } else {
                     for (i = 0; i < circles.length; i++) {
-                        circles[i].style.fill = '#aaa';
+                        jq(circles[i]).css('fill','#aaa');
                     }
                     for (i = 0; i < imgs.length; i++) {
-                        imgs[i].style.left = imgs[i].offsetLeft + width + 'px';
+                        jq(imgs[i]).css('left',imgs[i].offsetLeft+width+'px');
                         if (imgs[i].offsetLeft == 0) {
-                            // console.log(i);
-                            circles[i].style.fill = 'red';
+                            jq(circles[i]).css('fill','red');
                         }
                     }
                 }
-            };
-
-            sowingmapRight.onclick = Sowing
-            GetMvList()
+            });
+            jq(sowingmapRight).click(Sowing);
         }
+         GetMvList();
     })();
+
     (function(){
-        var xmlhttp,
-            textobj={},
-            imgs= GEA('.section-left-songlist img'),
-            imgs_text=GEA('.section-left-songlist-text'),
-            playvolume=GEA('.playvolume'),
+        var imgs= jq('.section-left-songlist img'),
+            imgs_text=jq('.section-left-songlist-text'),
+            playvolume=jq('.playvolume'),
             iframe=window.parent.document.querySelector('#iframe1');
 
-        if(window.XMLHttpRequest){
-            xmlhttp=new XMLHttpRequest();
-        }else {
-            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-
-        xmlhttp.onreadystatechange=function(){
-            if(xmlhttp.readyState==4&&xmlhttp.status==200){
-                textobj=JSON.parse(xmlhttp.responseText);
-
+        jq.ajax({
+            url:'http://localhost:3003/top/playlist',
+            success:function (result) {
                 for(i=0;i<imgs.length;i++){
-                    imgs[i].src=textobj.playlists[i].coverImgUrl;
-                    imgs[i].alt=textobj.playlists[i].name;
-                    imgs[i].title=textobj.playlists[i].name;
-                    imgs_text[i].innerHTML=textobj.playlists[i].name;
-                    playvolume[i].innerHTML=textobj.playlists[i].playCount;
+                    jq(imgs[i]).attr('src',result.playlists[i].coverImgUrl);
+                    jq(imgs[i]).attr('alt',result.playlists[i].name);
+                    jq(imgs[i]).attr('title',result.playlists[i].name);
+                    jq(imgs_text[i]).html(result.playlists[i].name);
+                    jq(playvolume[i]).html(result.playlists[i].playCount);
                 }
 
-                EventListener();
-
-                function EventListener(){
-                    for (i = 0; i < imgs.length; i++) {
-                        imgs[i].onclick = function() {
-                            var index = Array.prototype.indexOf.call(imgs,this);
-                            iframe.src='list.html?id='+textobj.playlists[index].id;
-                        }
-                    }
-                }
+                jq(imgs).click(function() {
+                    var index = Array.prototype.indexOf.call(imgs,this);
+                    jq(iframe).attr('src','list.html?id='+result.playlists[index].id);
+                })
             }
-        }
-        xmlhttp.open('POST','http://localhost:3003/top/playlist',true);
-        // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
-        xmlhttp.send('limit=8&order=hot')
-    })()
-   function GetMvList() {
-       var xmlhttp,
-           textobj={},
-           imgs= GEA('.section-right-mvlist img'),
-           imgs_text=GEA('.section-right-mvlist-text'),
-           iframe=window.parent.document.querySelector('#iframe1');
+        })
+    })();
+    function GetMvList() {
+        var imgs= jq('.section-right-mvlist img'),
+            iframe=window.parent.document.querySelector('#iframe1');
 
-       if(window.XMLHttpRequest){
-           xmlhttp=new XMLHttpRequest();
-       }else {
-           xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-       }
+        jq.ajax({
+            url: 'http://localhost:3003/personalized/mv',
+            success:function (result) {
+                for(i=0;i<imgs.length;i++){
+                    jq(imgs[i]).attr('src',result.result[i].picUrl);
+                    jq(imgs[i]).attr('alt',result.result[i].name);
+                    jq(imgs[i]).attr('title',result.result[i].name);
+                    jq(imgs[i]).html(result.result[i].name);
+                }
 
-       xmlhttp.onreadystatechange=function(){
-           if(xmlhttp.readyState==4&&xmlhttp.status==200){
-               textobj=JSON.parse(xmlhttp.responseText);
-               for(i=0;i<imgs.length;i++){
-                   imgs[i].src=textobj.result[i].picUrl;
-                   imgs[i].alt=textobj.result[i].name;
-                   imgs[i].title=textobj.result[i].name;
-                   imgs_text[i].innerHTML=textobj.result[i].name;
-               }
-               EventListener();
-               function EventListener(){
-                   for (i = 0; i < imgs.length; i++) {
-                       imgs[i].onclick = function() {
-                           var index = Array.prototype.indexOf.call(imgs,this);
-                           iframe.src='mv.html?mvid='+textobj.result[index].id;
-                           console.log(textobj.result[index].id)
-                       }
-                   }
-               }
-           }
-       };
-       xmlhttp.open('POST','http://localhost:3003/personalized/mv',true);
-       // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded")
-       xmlhttp.send()
-   }
+                jq(imgs).click(function() {
+                        var index = Array.prototype.indexOf.call(imgs,this);
+                        jq(iframe).attr('src','mv.html?mvid='+result.result[index].id);
+                    }
+                )
+            }
+        })
+    }
 </script>
 </html>

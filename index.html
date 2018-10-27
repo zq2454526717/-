@@ -243,39 +243,32 @@
         </div>
 </div>
 </body>
-<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="jquery-3.3.1.js"></script>
 <script>
+    var jq=$.noConflict();
+
     (function(){
-        var search=document.querySelector('.search input'),
-            iframe=document.querySelector('#iframe1'),
-            login=document.querySelector('#login');
+        var search=jq('.search input')[0],
+            iframe=jq('#iframe1')[0],
+            login=jq('#login')[0];
 
-        search.onkeydown=function(e) {
-             if (e.keyCode ==13) {
-                 var url=encodeURI(search.value);
-                iframe.src='search_list.html?keywords='+url;
-             }
-        };
+        jq(search).keydown(function (e) {
+            if(e.keyCode==13){
+                var url=encodeURI(search.value);
+                jq(iframe).attr('src','search_list.html?keywords='+url);
+            }
+        })
 
-        login.onclick=function () {
-            iframe.src='login.html';
-        };
+        jq(login).click(function () {
+            jq(iframe).attr('src','login.html')
+        })
 
-        $(document).ready(function(){
-            $(window).resize(function(){
-               $(".player").css("top",window.innerHeight-60+'px')
+        jq(document).ready(function(){
+            jq(window).resize(function(){
+                jq(".player").css("top",window.innerHeight-60+'px')
             });
         });
 
     })();
-
-
-    // var browser=navigator.appName;
-    // var b_version=navigator.appVersion;
-    // var version=parseFloat(b_version);
-    // console.log(browser);
-    // console.log(version);
-    // console.log(window.innerHeight)
-    console.log(screen.availHeight)
 </script>
 </html>
